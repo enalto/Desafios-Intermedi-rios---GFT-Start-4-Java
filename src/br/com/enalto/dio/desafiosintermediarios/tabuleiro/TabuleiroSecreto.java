@@ -73,7 +73,6 @@ class Tabuleiro {
     public Tabuleiro(int N) {
         this.tabuleiro = new int[N][N];
         init();
-        //print();
     }
 
 
@@ -98,14 +97,12 @@ class Tabuleiro {
         for (int i = 0; i < tabuleiro.length; i++) {
             tabuleiro[row - 1][i] = valor;
         }
-        //print();
     }
 
     public void setColuna(int col, int valor) {
         for (int i = 0; i < tabuleiro.length; i++) {
             tabuleiro[i][col - 1] = valor;
         }
-        //print();
     }
 
     public void printValorMaisFrequenteNaLinha(int nlinha) {
@@ -113,15 +110,8 @@ class Tabuleiro {
         for (int i = 0; i < tabuleiro.length; i++) {
             elementos[i] = tabuleiro[nlinha - 1][i];
         }
-        Map<Integer, Long> mapIntegerCount =
-                Arrays.stream(elementos).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
-        Optional<Map.Entry<Integer, Long>> max = mapIntegerCount.entrySet().stream().max((o1, o2) -> Long.compare(o1.getValue(), o2.getValue()));
-        Stream<Map.Entry<Integer, Long>> entryStream;
-        entryStream = mapIntegerCount.entrySet().stream().filter(integerLongEntry -> {
-            return integerLongEntry.getValue().equals(max.get().getValue());
-        });
-        Optional<Map.Entry<Integer, Long>> max1 = entryStream.max((o1, o2) -> Integer.compare(o1.getKey(), o2.getKey()));
-        System.out.println(max1.get().getKey());
+        Integer maxElementOfVector = getMaxElementOfVector(elementos);
+        System.out.println(maxElementOfVector);
     }
 
     public void printValorMaisFrequenteNaColuna(int Coluna) {
@@ -129,6 +119,11 @@ class Tabuleiro {
         for (int i = 0; i < tabuleiro.length; i++) {
             elementos[i] = tabuleiro[i][Coluna - 1];
         }
+        Integer maxElementOfVector = getMaxElementOfVector(elementos);
+        System.out.println(maxElementOfVector);
+    }
+
+    private Integer getMaxElementOfVector(int[] elementos) {
         Map<Integer, Long> mapIntegerCount =
                 Arrays.stream(elementos).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
         Optional<Map.Entry<Integer, Long>> max = mapIntegerCount.entrySet()
@@ -136,6 +131,7 @@ class Tabuleiro {
         Stream<Map.Entry<Integer, Long>> entryStream = mapIntegerCount.entrySet()
                 .stream().filter(integerLongEntry -> integerLongEntry.getValue().equals(max.get().getValue()));
         Optional<Map.Entry<Integer, Long>> max1 = entryStream.max((o1, o2) -> Integer.compare(o1.getKey(), o2.getKey()));
-        System.out.println(max1.get().getKey());
+        Integer maxkey = max1.get().getKey();
+        return maxkey;
     }
 }
